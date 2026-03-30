@@ -1,415 +1,272 @@
 <!DOCTYPE html>
-
 <html lang="pt-br">
-
 <head>
-
-  <meta charset="UTF-8">
-
-  <title>Convite misterioso (não é vírus)</title>
-
+  <meta charset="utf-8">
+  <title>convite misterioso</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
   <style>
-
     * {
-
       box-sizing: border-box;
-
       -webkit-tap-highlight-color: transparent;
-
       margin: 0;
-
       padding: 0;
-
     }
-
-
 
     body {
-
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-
       background: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
-
       color: white;
-
       min-height: 100vh;
-
       display: flex;
-
       justify-content: center;
-
       align-items: center;
-
       text-align: center;
-
       overflow: hidden;
-
       padding: 20px;
-
     }
-
-
 
     .container {
-
       max-width: 400px;
-
       width: 100%;
-
       position: relative;
-
       z-index: 1;
-
     }
-
-
 
     .etapa {
-
       display: none;
-
       flex-direction: column;
-
       align-items: center;
-
       justify-content: center;
-
       animation: fadeIn 0.4s ease;
-
     }
-
-
 
     .etapa.ativa {
-
       display: flex;
-
     }
 
+    .figurinha {
+      width: 130px;
+      height: auto;
+      margin-bottom: 15px;
+      border-radius: 16px;
+    }
 
+    .resultado-imagens {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .resultado-imagens .figurinha {
+      width: 90px;
+      margin-bottom: 0;
+    }
+
+    .input-senha {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      margin: 15px 0;
+      width: 80%;
+      text-align: center;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .erro-senha {
+      color: #ffcccc;
+      display: none;
+      margin-top: 10px;
+      font-size: 14px;
+    }
 
     h1 {
-
       font-size: clamp(22px, 5vw, 28px);
-
       font-weight: 700;
-
       margin-bottom: 12px;
-
     }
-
-
 
     h2 {
-
       font-size: clamp(18px, 4.5vw, 24px);
-
       margin-bottom: 10px;
-
     }
-
-
 
     p {
-
       font-size: clamp(16px, 4vw, 18px);
-
       margin: 8px 0;
-
       opacity: 0.95;
-
       line-height: 1.4;
-
     }
-
-
 
     .btn {
-
       padding: 14px 28px;
-
       border: none;
-
       border-radius: 14px;
-
       background: white;
-
       color: #e03030;
-
       font-size: clamp(15px, 4vw, 17px);
-
       font-weight: 600;
-
       cursor: pointer;
-
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-
       min-width: 120px;
-
       margin-top: 15px;
-
       transition: transform 0.1s;
-
     }
-
-
 
     .btn:active {
-
       transform: scale(0.95);
-
     }
-
-
 
     .botoes-respostas {
-
       display: flex;
-
       gap: 12px;
-
       justify-content: center;
-
       margin-top: 24px;
-
       flex-wrap: wrap;
-
       width: 100%;
-
     }
-
-
 
     #btnNao {
-
       position: fixed;
-
       z-index: 999;
-
       transition: left 0.2s ease-out, top 0.2s ease-out; 
-
     }
-
-
 
     @keyframes fadeIn {
-
       from { opacity: 0; transform: translateY(10px); }
-
       to   { opacity: 1; transform: translateY(0); }
-
     }
-
   </style>
-
 </head>
-
 <body>
 
-
-
 <div class="container">
-
-  <div id="parte1" class="etapa ativa">
-
-    <h1>Convite misterioso (não é vírus) 😄</h1>
-
-    <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
-
-    <button class="btn" onclick="mostrar('parte2')">Continuar</button>
-
+  <div id="login" class="etapa ativa">
+    <h2>Acesso restrito</h2>
+    <p>Digite a senha para visualizar</p>
+    <input type="password" id="senha" class="input-senha" placeholder="senha">
+    <button class="btn" onclick="verificarSenha()">entrar</button>
+    <p id="erro-senha" class="erro-senha">senha incorreta</p>
   </div>
 
-
+  <div id="parte1" class="etapa">
+    <h1>Nanda, preciso da sua ajuda com uma decisão muito importante…</h1>
+    <button class="btn" onclick="mostrar('parte2')">continuar</button>
+  </div>
 
   <div id="parte2" class="etapa">
-
     <h2>Depois de muita análise...</h2>
-
-    <p>(quase um TCC mesmo 😅)</p>
-
-    <p>Eu pensei bastante nisso...</p>
-
-    <button class="btn" onclick="mostrar('parte3')">Continuar</button>
-
+    <p>(quase um tcc mesmo 😅)</p>
+    <p>eu pensei bastante nisso...</p>
+    <img src="img1.webp" class="figurinha" alt="figurinha tcc">
+    <button class="btn" onclick="mostrar('parte3')">continuar</button>
   </div>
-
-
 
   <div id="parte3" class="etapa">
-
     <h2>Cheguei a uma conclusão:</h2>
-
     <h1>Você aceita sair comigo?</h1>
-
     <div class="botoes-respostas" id="box-botoes">
-
-      <button class="btn" onclick="resposta('Sim, eu aceito!')">Sim</button>
-
-      <button class="btn" onclick="resposta('Claro que sim!')">Claro 😄</button>
-
+      <button class="btn" onclick="resposta('sim, eu aceito!')">sim</button>
+      <button class="btn" onclick="resposta('claro que sim!')">claro 😄</button>
     </div>
-
   </div>
-
-
 
   <div id="resultado" class="etapa">
-
-    <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
-
-    <p>Até o dia!</p>
-
+    <div class="resultado-imagens">
+      <img src="img2.webp" class="figurinha" alt="figurinha 2">
+      <img src="img3.webp" class="figurinha" alt="figurinha 3">
+      <img src="img4.webp" class="figurinha" alt="figurinha 4">
+    </div>
+    <h2>prometo risadas, zoar o flamengo (e o cruzeiro também kkk) e um bom papo 😄</h2>
+    <p>até o dia!</p>
+    <button class="btn" onclick="enviarWhatsapp()">avisar no whatsapp</button>
   </div>
-
 </div>
 
-
-
-<button id="btnNao" class="btn" style="display: none;">Não 😢</button>
-
-
+<button id="btnNao" class="btn" style="display: none;">não 😢</button>
 
 <script>
-
-  // ATENÇÃO: Coloque seu número aqui no formato: 55 + DDD + Número
-
   const numeroWhatsApp = "553888191623";
+  let mensagemEscolhida = "";
 
-
+  function verificarSenha() {
+    const senhaDigitada = document.getElementById('senha').value;
+    if (senhaDigitada === "1234") {
+      document.getElementById('erro-senha').style.display = 'none';
+      mostrar('parte1');
+    } else {
+      document.getElementById('erro-senha').style.display = 'block';
+    }
+  }
 
   function mostrar(id) {
-
     document.querySelectorAll('.etapa').forEach(el => el.classList.remove('ativa'));
-
     document.getElementById(id).classList.add('ativa');
 
-
-
     if (id === 'parte3') {
-
       iniciarBotaoNao();
-
     }
-
   }
-
-
 
   function resposta(mensagem) {
-
+    mensagemEscolhida = mensagem;
     document.querySelectorAll('.etapa').forEach(el => el.classList.remove('ativa'));
-
     document.getElementById('resultado').classList.add('ativa');
-
     document.getElementById('btnNao').style.display = 'none';
-
-    
-
-    // Abre o WhatsApp da pessoa com a mensagem pronta para enviar para você
-
-    const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensagem)}`;
-
-    window.open(url, '_blank');
-
   }
 
-
+  function enviarWhatsapp() {
+    const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensagemEscolhida)}`;
+    window.open(url, '_blank');
+  }
 
   const btnNao = document.getElementById('btnNao');
 
-
-
   function iniciarBotaoNao() {
-
     btnNao.style.display = 'block';
-
     
-
     const boxBotoes = document.getElementById('box-botoes').getBoundingClientRect();
-
     const initialX = (window.innerWidth / 2) - (btnNao.offsetWidth / 2);
-
     const initialY = boxBotoes.bottom + 20;
 
-
-
     btnNao.style.left = initialX + 'px';
-
     btnNao.style.top = initialY + 'px';
-
   }
-
-
 
   function fugir() {
-
     const padding = 20;
-
     const maxLeft = window.innerWidth - btnNao.offsetWidth - padding;
-
     const maxTop = window.innerHeight - btnNao.offsetHeight - padding;
 
-
-
     const newLeft = padding + Math.random() * (maxLeft - padding * 2);
-
     const newTop = padding + Math.random() * (maxTop - padding * 2);
 
-
-
     btnNao.style.left = newLeft + 'px';
-
     btnNao.style.top = newTop + 'px';
-
   }
 
-
-
   btnNao.addEventListener('mouseover', fugir);
-
   
-
   btnNao.addEventListener('touchstart', (e) => {
-
     e.preventDefault();
-
     fugir();
-
   });
-
   
-
   document.addEventListener('touchmove', function(e) {
-
     if (btnNao.style.display === 'none') return;
-
     
-
     var touch = e.touches[0];
-
     var rect = btnNao.getBoundingClientRect();
-
     var dx = Math.abs(touch.clientX - (rect.left + rect.width/2));
-
     var dy = Math.abs(touch.clientY - (rect.top + rect.height/2));
 
-
-
     if (dx < 80 && dy < 80) {
-
       fugir();
-
     }
-
   });
-
 </script>
 
-
-
 </body>
-
 </html>
