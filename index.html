@@ -1,219 +1,415 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
+
 <head>
+
   <meta charset="UTF-8">
+
   <title>Convite misterioso (não é vírus)</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+
   <style>
+
     * {
+
       box-sizing: border-box;
+
       -webkit-tap-highlight-color: transparent;
+
       margin: 0;
+
       padding: 0;
+
     }
+
+
 
     body {
+
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+
       background: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
+
       color: white;
+
       min-height: 100vh;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
       text-align: center;
-      overflow: hidden; /* Impede criar barras de rolagem quando o botão foge */
+
+      overflow: hidden;
+
       padding: 20px;
+
     }
+
+
 
     .container {
+
       max-width: 400px;
+
       width: 100%;
+
       position: relative;
+
       z-index: 1;
+
     }
+
+
 
     .etapa {
+
       display: none;
+
       flex-direction: column;
+
       align-items: center;
+
       justify-content: center;
+
       animation: fadeIn 0.4s ease;
+
     }
+
+
 
     .etapa.ativa {
+
       display: flex;
+
     }
+
+
 
     h1 {
+
       font-size: clamp(22px, 5vw, 28px);
+
       font-weight: 700;
+
       margin-bottom: 12px;
+
     }
+
+
 
     h2 {
+
       font-size: clamp(18px, 4.5vw, 24px);
+
       margin-bottom: 10px;
+
     }
+
+
 
     p {
+
       font-size: clamp(16px, 4vw, 18px);
+
       margin: 8px 0;
+
       opacity: 0.95;
+
       line-height: 1.4;
+
     }
+
+
 
     .btn {
+
       padding: 14px 28px;
+
       border: none;
+
       border-radius: 14px;
+
       background: white;
+
       color: #e03030;
+
       font-size: clamp(15px, 4vw, 17px);
+
       font-weight: 600;
+
       cursor: pointer;
+
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+
       min-width: 120px;
+
       margin-top: 15px;
+
       transition: transform 0.1s;
+
     }
+
+
 
     .btn:active {
+
       transform: scale(0.95);
+
     }
+
+
 
     .botoes-respostas {
+
       display: flex;
+
       gap: 12px;
+
       justify-content: center;
+
       margin-top: 24px;
+
       flex-wrap: wrap;
+
       width: 100%;
+
     }
 
-    /* Estilo específico do Botão Não */
+
+
     #btnNao {
+
       position: fixed;
+
       z-index: 999;
-      /* Faz o botão deslizar suavemente ao invés de só teleportar */
+
       transition: left 0.2s ease-out, top 0.2s ease-out; 
+
     }
 
-    .resultado-icon {
-      font-size: 56px;
-      margin-bottom: 12px;
-      display: block;
-    }
+
 
     @keyframes fadeIn {
+
       from { opacity: 0; transform: translateY(10px); }
+
       to   { opacity: 1; transform: translateY(0); }
+
     }
+
   </style>
+
 </head>
+
 <body>
 
+
+
 <div class="container">
+
   <div id="parte1" class="etapa ativa">
-    <h1>Nanda, preciso da sua ajuda com uma decisão muito importante…</h1>
+
+    <h1>Convite misterioso (não é vírus) 😄</h1>
+
+    <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
+
     <button class="btn" onclick="mostrar('parte2')">Continuar</button>
+
   </div>
+
+
 
   <div id="parte2" class="etapa">
+
     <h2>Depois de muita análise...</h2>
+
     <p>(quase um TCC mesmo 😅)</p>
+
     <p>Eu pensei bastante nisso...</p>
+
     <button class="btn" onclick="mostrar('parte3')">Continuar</button>
+
   </div>
+
+
 
   <div id="parte3" class="etapa">
+
     <h2>Cheguei a uma conclusão:</h2>
+
     <h1>Você aceita sair comigo?</h1>
+
     <div class="botoes-respostas" id="box-botoes">
-      <button class="btn" onclick="resposta()">Sim!</button>
-      <button class="btn" onclick="resposta()">Claro!</button>
+
+      <button class="btn" onclick="resposta('Sim, eu aceito!')">Sim</button>
+
+      <button class="btn" onclick="resposta('Claro que sim!')">Claro 😄</button>
+
     </div>
+
   </div>
 
+
+
   <div id="resultado" class="etapa">
-    <span class="resultado-icon"></span>
+
     <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
+
     <p>Até o dia!</p>
+
   </div>
+
 </div>
+
+
 
 <button id="btnNao" class="btn" style="display: none;">Não 😢</button>
 
+
+
 <script>
+
+  // ATENÇÃO: Coloque seu número aqui no formato: 55 + DDD + Número
+
+  const numeroWhatsApp = "553888191623";
+
+
+
   function mostrar(id) {
-    // Esconde todas as etapas
+
     document.querySelectorAll('.etapa').forEach(el => el.classList.remove('ativa'));
-    // Mostra a etapa solicitada
+
     document.getElementById(id).classList.add('ativa');
 
-    // Se chegou na parte de responder, prepara o botão "Não"
+
+
     if (id === 'parte3') {
+
       iniciarBotaoNao();
+
     }
+
   }
 
-  function resposta() {
+
+
+  function resposta(mensagem) {
+
     document.querySelectorAll('.etapa').forEach(el => el.classList.remove('ativa'));
+
     document.getElementById('resultado').classList.add('ativa');
-    document.getElementById('btnNao').style.display = 'none'; // Some com o botão "Não"
+
+    document.getElementById('btnNao').style.display = 'none';
+
+    
+
+    // Abre o WhatsApp da pessoa com a mensagem pronta para enviar para você
+
+    const url = `https://api.whatsapp.com/send?phone=${numeroWhatsApp}&text=${encodeURIComponent(mensagem)}`;
+
+    window.open(url, '_blank');
+
   }
+
+
 
   const btnNao = document.getElementById('btnNao');
 
+
+
   function iniciarBotaoNao() {
+
     btnNao.style.display = 'block';
 
-    // Calcula onde colocar o botão "Não" inicialmente (logo abaixo dos outros)
-    const boxBotoes = document.getElementById('box-botoes').getBoundingClientRect();
     
+
+    const boxBotoes = document.getElementById('box-botoes').getBoundingClientRect();
+
     const initialX = (window.innerWidth / 2) - (btnNao.offsetWidth / 2);
+
     const initialY = boxBotoes.bottom + 20;
 
+
+
     btnNao.style.left = initialX + 'px';
+
     btnNao.style.top = initialY + 'px';
+
   }
+
+
 
   function fugir() {
+
     const padding = 20;
-    // Garante que o botão não fuja para fora da tela
+
     const maxLeft = window.innerWidth - btnNao.offsetWidth - padding;
+
     const maxTop = window.innerHeight - btnNao.offsetHeight - padding;
 
+
+
     const newLeft = padding + Math.random() * (maxLeft - padding * 2);
+
     const newTop = padding + Math.random() * (maxTop - padding * 2);
 
+
+
     btnNao.style.left = newLeft + 'px';
+
     btnNao.style.top = newTop + 'px';
+
   }
 
-  // Eventos para o PC (mouse)
+
+
   btnNao.addEventListener('mouseover', fugir);
+
   
-  // Eventos para o Celular (toque)
+
   btnNao.addEventListener('touchstart', (e) => {
-    e.preventDefault(); // Evita que o clique seja processado acidentalmente
+
+    e.preventDefault();
+
     fugir();
+
   });
+
   
-  // Aproximação do dedo no celular
+
   document.addEventListener('touchmove', function(e) {
+
     if (btnNao.style.display === 'none') return;
+
     
+
     var touch = e.touches[0];
+
     var rect = btnNao.getBoundingClientRect();
+
     var dx = Math.abs(touch.clientX - (rect.left + rect.width/2));
+
     var dy = Math.abs(touch.clientY - (rect.top + rect.height/2));
 
-    // Se o dedo chegar a menos de 80 pixels de distância, o botão foge
+
+
     if (dx < 80 && dy < 80) {
+
       fugir();
+
     }
+
   });
+
 </script>
 
+
+
 </body>
+
 </html>
