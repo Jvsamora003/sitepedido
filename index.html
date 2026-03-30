@@ -16,12 +16,12 @@
       align-items: center;
       height: 100vh;
       text-align: center;
+      overflow: hidden;
     }
 
     .container {
       max-width: 400px;
       width: 90%;
-      position: relative; /* 🔥 importante */
     }
 
     h1 {
@@ -29,12 +29,7 @@
     }
 
     .botoes {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      position: relative;
-      height: 60px; /* 🔥 espaço pro botão fugir sem quebrar layout */
+      margin-top: 20px;
     }
 
     button {
@@ -46,6 +41,7 @@
       color: #ff4d4d;
       font-size: 16px;
       cursor: pointer;
+      margin: 5px;
       transition: 0.2s;
     }
 
@@ -53,16 +49,15 @@
       transform: scale(0.95);
     }
 
-    button:hover {
-      background-color: #ffe5e5;
-    }
-
     .hidden {
       display: none;
     }
 
     #btnNao {
-      position: absolute;
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 120px; /* começa longe dos outros */
     }
   </style>
 </head>
@@ -72,7 +67,8 @@
 
     <!-- Parte 1 -->
     <div id="parte1">
-      <h1>Nanda, preciso da sua ajuda com uma decisão muito importante…</h1>
+      <h1>Convite misterioso (não é vírus) 😄</h1>
+      <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
       <button onclick="mostrarParte2()">Continuar</button>
     </div>
 
@@ -92,8 +88,9 @@
       <div class="botoes">
         <button onclick="resposta()">Sim 😍</button>
         <button onclick="resposta()">Claro 😄</button>
-        <button id="btnNao">Não 😢</button>
       </div>
+
+      <button id="btnNao">Não 😢</button>
     </div>
 
     <!-- Resultado -->
@@ -121,11 +118,10 @@
     }
 
     const btnNao = document.getElementById("btnNao");
-    const area = document.querySelector(".botoes");
 
     function fugir() {
-      const largura = area.clientWidth - btnNao.offsetWidth;
-      const altura = area.clientHeight - btnNao.offsetHeight;
+      const largura = window.innerWidth - btnNao.offsetWidth;
+      const altura = window.innerHeight - btnNao.offsetHeight;
 
       const x = Math.random() * largura;
       const y = Math.random() * altura;
