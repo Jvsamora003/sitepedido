@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedido Especial</title>
+
+  <!-- Força renderização padrão (iPhone usa emoji nativo) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
+      background: red;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background-color: white;
+      color: red;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      transition: 0.2s;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #btnNao {
+      position: fixed; /* 🔥 garante que fica na tela */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Parte 1 -->
+    <div id="parte1">
+      <h1>Nanda, preciso da sua ajuda com uma decisão muito importante…</h1>
+      <button onclick="mostrarParte2()">Continuar</button>
+    </div>
+
+    <!-- Parte 2 -->
+    <div id="parte2" class="hidden">
+      <p>Depois de muita análise (quase um TCC), cheguei a uma conclusão:</p>
+      <h2>Você aceita sair comigo?</h2>
+
+      <button onclick="resposta()">Sim 😍</button>
+      <button onclick="resposta()">Claro 😄</button>
+      <button id="btnNao">Não 😢</button>
+    </div>
+
+    <!-- Resultado -->
+    <div id="resultado" class="hidden">
+      <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
+      <p>Até o dia! ❤️</p>
+    </div>
+
+  </div>
+
+  <script>
+    function mostrarParte2() {
+      document.getElementById("parte1").classList.add("hidden");
+      document.getElementById("parte2").classList.remove("hidden");
+    }
+
+    function resposta() {
+      document.getElementById("parte2").classList.add("hidden");
+      document.getElementById("resultado").classList.remove("hidden");
+    }
+
+    const btnNao = document.getElementById("btnNao");
+
+    function fugir() {
+      const largura = window.innerWidth - btnNao.offsetWidth - 10;
+      const altura = window.innerHeight - btnNao.offsetHeight - 10;
+
+      const x = Math.max(0, Math.random() * largura);
+      const y = Math.max(0, Math.random() * altura);
+
+      btnNao.style.left = x + "px";
+      btnNao.style.top = y + "px";
+    }
+
+    // PC
+    btnNao.addEventListener("mouseover", fugir);
+
+    // Celular
+    btnNao.addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      fugir();
+    });
+  </script>
+
+</body>
+</html>
