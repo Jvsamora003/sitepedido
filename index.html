@@ -27,6 +27,7 @@
     .container {
       max-width: 380px;
       width: 100%;
+      position: relative;
     }
 
     .card {
@@ -36,27 +37,25 @@
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 24px;
       padding: 36px 28px;
+      position: relative;
+      z-index: 1;
     }
 
     h1 {
       font-size: clamp(20px, 5vw, 26px);
       font-weight: 700;
       margin: 0 0 12px;
-      line-height: 1.3;
     }
 
     h2 {
       font-size: clamp(17px, 4.5vw, 22px);
-      font-weight: 600;
       margin: 0 0 10px;
-      line-height: 1.3;
     }
 
     p {
       font-size: clamp(14px, 3.8vw, 16px);
       margin: 8px 0;
       opacity: 0.92;
-      line-height: 1.5;
     }
 
     .botoes-principais {
@@ -76,26 +75,22 @@
       font-size: clamp(15px, 4vw, 17px);
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
       box-shadow: 0 4px 15px rgba(0,0,0,0.15);
       min-width: 110px;
-      user-select: none;
     }
 
     .btn:active {
-      transform: scale(0.94);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      transform: scale(0.95);
     }
 
     .btn-continuar {
       margin-top: 24px;
     }
 
+    /* BOTÃO NÃO AGORA FICA SOLTO NA TELA */
     .btn-nao {
       position: fixed;
-      touch-action: none;
-      transition: left 0.15s ease, top 0.15s ease;
-      z-index: 999;
+      z-index: 9999;
     }
 
     .hidden {
@@ -120,100 +115,105 @@
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <!-- Parte 1 -->
-    <div id="parte1" class="card fade-in">
-      <h1>Convite misterioso (não é vírus) 😄</h1>
-      <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
-      <button class="btn btn-continuar" onclick="mostrar('parte1','parte2')">Continuar</button>
-    </div>
-
-    <!-- Parte 2 -->
-    <div id="parte2" class="card hidden">
-      <h2>Depois de muita análise...</h2>
-      <p>(quase um TCC mesmo 😅)</p>
-      <p>Eu pensei bastante nisso...</p>
-      <button class="btn btn-continuar" onclick="mostrar('parte2','parte3')">Continuar</button>
-    </div>
-
-    <!-- Parte 3 -->
-    <div id="parte3" class="card hidden">
-      <h2>Cheguei a uma conclusão:</h2>
-      <h1>Você aceita sair comigo?</h1>
-      <div class="botoes-principais">
-        <button class="btn" onclick="resposta()">Sim 😍</button>
-        <button class="btn" onclick="resposta()">Claro 😄</button>
-        <button id="btnNao" class="btn btn-nao">Não 😢</button>
-      </div>
-    </div>
-
-    <!-- Resultado -->
-    <div id="resultado" class="card hidden">
-      <span class="resultado-icon">❤️</span>
-      <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
-      <p>Até o dia! ❤️</p>
-    </div>
-
+  <!-- Parte 1 -->
+  <div id="parte1" class="card fade-in">
+    <h1>Convite misterioso (não é vírus) 😄</h1>
+    <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
+    <button class="btn btn-continuar" onclick="mostrar('parte1','parte2')">Continuar</button>
   </div>
 
-  <script>
-    function mostrar(idSair, idEntrar) {
-      document.getElementById(idSair).classList.add('hidden');
-      var el = document.getElementById(idEntrar);
-      el.classList.remove('hidden');
-      el.classList.add('fade-in');
-      if (idEntrar === 'parte3') posicionarInicial();
-    }
+  <!-- Parte 2 -->
+  <div id="parte2" class="card hidden">
+    <h2>Depois de muita análise...</h2>
+    <p>(quase um TCC mesmo 😅)</p>
+    <p>Eu pensei bastante nisso...</p>
+    <button class="btn btn-continuar" onclick="mostrar('parte2','parte3')">Continuar</button>
+  </div>
 
-    function resposta() {
-      document.getElementById('parte3').classList.add('hidden');
-      var r = document.getElementById('resultado');
-      r.classList.remove('hidden');
-      r.classList.add('fade-in');
-    }
+  <!-- Parte 3 -->
+  <div id="parte3" class="card hidden">
+    <h2>Cheguei a uma conclusão:</h2>
+    <h1>Você aceita sair comigo?</h1>
 
-    var btnNao = document.getElementById('btnNao');
+    <div class="botoes-principais">
+      <button class="btn" onclick="resposta()">Sim 😍</button>
+      <button class="btn" onclick="resposta()">Claro 😄</button>
+    </div>
 
-    /* Coloca o botão na posição inicial (embaixo dos outros, centralizado) */
-    function posicionarInicial() {
-      var bw = btnNao.offsetWidth || 120;
-      var bh = btnNao.offsetHeight || 48;
-      btnNao.style.left = ((window.innerWidth - bw) / 2) + 'px';
-      btnNao.style.top  = (window.innerHeight * 0.72) + 'px';
-    }
+    <!-- BOTÃO NÃO FORA DO FLEX -->
+    <button id="btnNao" class="btn btn-nao">Não 😢</button>
+  </div>
 
-    function fugir() {
-      var bw = btnNao.offsetWidth || 120;
-      var bh = btnNao.offsetHeight || 48;
-      var margin = 16;
+  <!-- Resultado -->
+  <div id="resultado" class="card hidden">
+    <span class="resultado-icon">❤️</span>
+    <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
+    <p>Até o dia! ❤️</p>
+  </div>
 
-      /* Posição atual */
-      var cx = parseFloat(btnNao.style.left) || window.innerWidth / 2;
-      var cy = parseFloat(btnNao.style.top)  || window.innerHeight * 0.72;
+</div>
 
-      /* Gera nova posição até achar uma suficientemente longe */
-      var nx, ny, tentativas = 0;
-      do {
-        nx = margin + Math.random() * (window.innerWidth  - bw - margin * 2);
-        ny = margin + Math.random() * (window.innerHeight - bh - margin * 2);
-        tentativas++;
-      } while (
-        Math.abs(nx - cx) < 80 && Math.abs(ny - cy) < 80 && tentativas < 20
-      );
+<script>
+  function mostrar(idSair, idEntrar) {
+    document.getElementById(idSair).classList.add('hidden');
+    var el = document.getElementById(idEntrar);
+    el.classList.remove('hidden');
+    el.classList.add('fade-in');
 
-      btnNao.style.left = nx + 'px';
-      btnNao.style.top  = ny + 'px';
-    }
+    if (idEntrar === 'parte3') posicionarInicial();
+  }
 
-    /* PC: foge no hover */
-    btnNao.addEventListener('mouseover', fugir);
+  function resposta() {
+    document.getElementById('parte3').classList.add('hidden');
+    var r = document.getElementById('resultado');
+    r.classList.remove('hidden');
+    r.classList.add('fade-in');
+  }
 
-    /* Celular: preventDefault impede o clique, foge no touchstart */
-    btnNao.addEventListener('touchstart', function(e) {
-      e.preventDefault();
+  var btnNao = document.getElementById('btnNao');
+
+  function posicionarInicial() {
+    var bw = btnNao.offsetWidth;
+    btnNao.style.left = ((window.innerWidth - bw) / 2) + 'px';
+    btnNao.style.top  = (window.innerHeight * 0.75) + 'px';
+  }
+
+  function fugir() {
+    var bw = btnNao.offsetWidth;
+    var bh = btnNao.offsetHeight;
+    var margin = 20;
+
+    var nx = margin + Math.random() * (window.innerWidth - bw - margin * 2);
+    var ny = margin + Math.random() * (window.innerHeight - bh - margin * 2);
+
+    btnNao.style.left = nx + 'px';
+    btnNao.style.top  = ny + 'px';
+  }
+
+  // PC
+  btnNao.addEventListener('mouseover', fugir);
+
+  // CELULAR (toque direto)
+  btnNao.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    fugir();
+  }, { passive: false });
+
+  // CELULAR (aproximação do dedo)
+  document.addEventListener('touchmove', function(e) {
+    var touch = e.touches[0];
+    var rect = btnNao.getBoundingClientRect();
+
+    var dx = Math.abs(touch.clientX - (rect.left + rect.width/2));
+    var dy = Math.abs(touch.clientY - (rect.top + rect.height/2));
+
+    if (dx < 100 && dy < 100) {
       fugir();
-    }, { passive: false });
-  </script>
+    }
+  });
+</script>
+
 </body>
 </html>
