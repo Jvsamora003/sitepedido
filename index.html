@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Pedido Especial</title>
-
-  <!-- Força renderização padrão (iPhone usa emoji nativo) -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
@@ -24,7 +22,6 @@
     .container {
       max-width: 400px;
       width: 90%;
-      position: relative;
     }
 
     button {
@@ -48,7 +45,7 @@
     }
 
     #btnNao {
-      position: fixed; /* 🔥 garante que fica na tela */
+      position: fixed;
     }
   </style>
 </head>
@@ -62,10 +59,18 @@
       <button onclick="mostrarParte2()">Continuar</button>
     </div>
 
-    <!-- Parte 2 -->
+    <!-- Parte 2 (SUSPENSE) -->
     <div id="parte2" class="hidden">
-      <p>Depois de muita análise (quase um TCC), cheguei a uma conclusão:</p>
-      <h2>Você aceita sair comigo?</h2>
+      <h2>Depois de muita análise...</h2>
+      <p>(quase um TCC mesmo 😅)</p>
+      <p>Eu pensei bastante nisso...</p>
+      <button onclick="mostrarParte3()">Continuar</button>
+    </div>
+
+    <!-- Parte 3 (PEDIDO) -->
+    <div id="parte3" class="hidden">
+      <h2>Cheguei a uma conclusão:</h2>
+      <h1>Você aceita sair comigo?</h1>
 
       <button onclick="resposta()">Sim 😍</button>
       <button onclick="resposta()">Claro 😄</button>
@@ -86,8 +91,13 @@
       document.getElementById("parte2").classList.remove("hidden");
     }
 
-    function resposta() {
+    function mostrarParte3() {
       document.getElementById("parte2").classList.add("hidden");
+      document.getElementById("parte3").classList.remove("hidden");
+    }
+
+    function resposta() {
+      document.getElementById("parte3").classList.add("hidden");
       document.getElementById("resultado").classList.remove("hidden");
     }
 
@@ -97,17 +107,15 @@
       const largura = window.innerWidth - btnNao.offsetWidth - 10;
       const altura = window.innerHeight - btnNao.offsetHeight - 10;
 
-      const x = Math.max(0, Math.random() * largura);
-      const y = Math.max(0, Math.random() * altura);
+      const x = Math.random() * largura;
+      const y = Math.random() * altura;
 
       btnNao.style.left = x + "px";
       btnNao.style.top = y + "px";
     }
 
-    // PC
     btnNao.addEventListener("mouseover", fugir);
 
-    // Celular
     btnNao.addEventListener("touchstart", function(e) {
       e.preventDefault();
       fugir();
