@@ -16,21 +16,29 @@
       align-items: center;
       height: 100vh;
       text-align: center;
-      overflow: hidden;
     }
 
     .container {
       max-width: 400px;
       width: 90%;
-      position: relative;
+      position: relative; /* 🔥 importante */
     }
 
     h1 {
       font-size: 22px;
     }
 
+    .botoes {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      position: relative;
+      height: 60px; /* 🔥 espaço pro botão fugir sem quebrar layout */
+    }
+
     button {
-      width: 120px; /* 🔥 tamanho fixo igual */
+      width: 110px;
       padding: 12px;
       border: none;
       border-radius: 10px;
@@ -38,7 +46,6 @@
       color: #ff4d4d;
       font-size: 16px;
       cursor: pointer;
-      margin: 5px;
       transition: 0.2s;
     }
 
@@ -55,8 +62,7 @@
     }
 
     #btnNao {
-      position: fixed;
-      width: 120px; /* 🔥 mesmo tamanho */
+      position: absolute;
     }
   </style>
 </head>
@@ -83,9 +89,11 @@
       <h2>Cheguei a uma conclusão:</h2>
       <h1>Você aceita sair comigo?</h1>
 
-      <button onclick="resposta()">Sim 😍</button>
-      <button onclick="resposta()">Claro 😄</button>
-      <button id="btnNao">Não 😢</button>
+      <div class="botoes">
+        <button onclick="resposta()">Sim 😍</button>
+        <button onclick="resposta()">Claro 😄</button>
+        <button id="btnNao">Não 😢</button>
+      </div>
     </div>
 
     <!-- Resultado -->
@@ -113,10 +121,11 @@
     }
 
     const btnNao = document.getElementById("btnNao");
+    const area = document.querySelector(".botoes");
 
     function fugir() {
-      const largura = window.innerWidth - btnNao.offsetWidth - 10;
-      const altura = window.innerHeight - btnNao.offsetHeight - 10;
+      const largura = area.clientWidth - btnNao.offsetWidth;
+      const altura = area.clientHeight - btnNao.offsetHeight;
 
       const x = Math.random() * largura;
       const y = Math.random() * altura;
@@ -125,8 +134,10 @@
       btnNao.style.top = y + "px";
     }
 
+    // PC
     btnNao.addEventListener("mouseover", fugir);
 
+    // Celular
     btnNao.addEventListener("touchstart", function(e) {
       e.preventDefault();
       fugir();
