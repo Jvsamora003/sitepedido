@@ -3,61 +3,116 @@
 <head>
   <meta charset="UTF-8">
   <title>Convite misterioso (não é vírus)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial;
-      background: #ff6666;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
       color: white;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
       text-align: center;
       overflow: hidden;
+      padding: 20px;
     }
 
     .container {
-      max-width: 400px;
-      width: 90%;
+      max-width: 380px;
+      width: 100%;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
+      padding: 36px 28px;
     }
 
     h1 {
-      font-size: 22px;
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 700;
+      margin: 0 0 12px;
+      line-height: 1.3;
     }
 
-    .botoes {
-      margin-top: 20px;
+    h2 {
+      font-size: clamp(17px, 4.5vw, 22px);
+      font-weight: 600;
+      margin: 0 0 10px;
+      line-height: 1.3;
     }
 
-    button {
-      width: 110px;
-      padding: 12px;
+    p {
+      font-size: clamp(14px, 3.8vw, 16px);
+      margin: 8px 0;
+      opacity: 0.92;
+      line-height: 1.5;
+    }
+
+    .botoes-principais {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 14px 28px;
       border: none;
-      border-radius: 10px;
-      background-color: white;
-      color: #ff4d4d;
-      font-size: 16px;
+      border-radius: 14px;
+      background: white;
+      color: #e03030;
+      font-size: clamp(15px, 4vw, 17px);
+      font-weight: 600;
       cursor: pointer;
-      margin: 5px;
-      transition: 0.2s;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+      min-width: 110px;
+      user-select: none;
     }
 
-    button:active {
-      transform: scale(0.95);
+    .btn:active {
+      transform: scale(0.94);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    .btn-continuar {
+      margin-top: 24px;
+    }
+
+    .btn-nao {
+      opacity: 0.75;
+      touch-action: none;
     }
 
     .hidden {
-      display: none;
+      display: none !important;
     }
 
-    #btnNao {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 120px; /* posição inicial */
+    .resultado-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -66,35 +121,34 @@
   <div class="container">
 
     <!-- Parte 1 -->
-    <div id="parte1">
+    <div id="parte1" class="card fade-in">
       <h1>Convite misterioso (não é vírus) 😄</h1>
       <p>Nanda, preciso da sua ajuda com uma decisão muito importante…</p>
-      <button onclick="mostrarParte2()">Continuar</button>
+      <button class="btn btn-continuar" onclick="mostrar('parte1','parte2')">Continuar</button>
     </div>
 
     <!-- Parte 2 -->
-    <div id="parte2" class="hidden">
+    <div id="parte2" class="card hidden">
       <h2>Depois de muita análise...</h2>
       <p>(quase um TCC mesmo 😅)</p>
       <p>Eu pensei bastante nisso...</p>
-      <button onclick="mostrarParte3()">Continuar</button>
+      <button class="btn btn-continuar" onclick="mostrar('parte2','parte3')">Continuar</button>
     </div>
 
     <!-- Parte 3 -->
-    <div id="parte3" class="hidden">
+    <div id="parte3" class="card hidden">
       <h2>Cheguei a uma conclusão:</h2>
       <h1>Você aceita sair comigo?</h1>
-
-      <div class="botoes">
-        <button onclick="resposta()">Sim 😍</button>
-        <button onclick="resposta()">Claro 😄</button>
+      <div class="botoes-principais">
+        <button class="btn" onclick="resposta()">Sim 😍</button>
+        <button class="btn" onclick="resposta()">Claro 😄</button>
+        <button id="btnNao" class="btn btn-nao">Não 😢</button>
       </div>
-
-      <button id="btnNao">Não 😢</button>
     </div>
 
     <!-- Resultado -->
-    <div id="resultado" class="hidden">
+    <div id="resultado" class="card hidden">
+      <span class="resultado-icon">❤️</span>
       <h2>Prometo risadas, zoar o Flamengo (e o Cruzeiro também kkk) e um bom papo 😄</h2>
       <p>Até o dia! ❤️</p>
     </div>
@@ -102,48 +156,42 @@
   </div>
 
   <script>
-    function mostrarParte2() {
-      document.getElementById("parte1").classList.add("hidden");
-      document.getElementById("parte2").classList.remove("hidden");
-    }
+    function mostrar(idSair, idEntrar) {
+      document.getElementById(idSair).classList.add('hidden');
+      var el = document.getElementById(idEntrar);
+      el.classList.remove('hidden');
+      el.classList.add('fade-in');
 
-    function mostrarParte3() {
-      document.getElementById("parte2").classList.add("hidden");
-      document.getElementById("parte3").classList.remove("hidden");
     }
 
     function resposta() {
-      document.getElementById("parte3").classList.add("hidden");
-      document.getElementById("resultado").classList.remove("hidden");
+      document.getElementById('parte3').classList.add('hidden');
+      var r = document.getElementById('resultado');
+      r.classList.remove('hidden');
+      r.classList.add('fade-in');
     }
 
-    const btnNao = document.getElementById("btnNao");
+    var btnNao = document.getElementById('btnNao');
+    var isMoving = false;
 
     function fugir() {
-      const largura = window.innerWidth - btnNao.offsetWidth;
-      const altura = window.innerHeight - btnNao.offsetHeight;
-
-      const x = Math.random() * largura;
-      const y = Math.random() * altura;
-
-      // 🔥 reset evita bug do botão gigante
-      btnNao.style.bottom = "auto";
-      btnNao.style.right = "auto";
-      btnNao.style.transform = "none";
-
-      btnNao.style.left = x + "px";
-      btnNao.style.top = y + "px";
+      if (isMoving) return;
+      isMoving = true;
+      /* Muda a ordem do botão dentro do flex: 0, 1 ou 2 aleatório */
+      var ordens = [0, 1, 2, 3, 4];
+      var ordem = ordens[Math.floor(Math.random() * ordens.length)];
+      btnNao.style.order = ordem;
+      setTimeout(function() { isMoving = false; }, 300);
     }
 
-    // PC
-    btnNao.addEventListener("mouseover", fugir);
+    /* PC: mouseover */
+    btnNao.addEventListener('mouseover', fugir);
 
-    // Celular
-    btnNao.addEventListener("touchstart", function(e) {
+    /* Celular: intercepta o touchstart e move ANTES do toque ser registrado como clique */
+    btnNao.addEventListener('touchstart', function(e) {
       e.preventDefault();
       fugir();
-    });
+    }, { passive: false });
   </script>
-
 </body>
 </html>
