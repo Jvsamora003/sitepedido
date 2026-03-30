@@ -57,7 +57,7 @@
       position: fixed;
       left: 50%;
       transform: translateX(-50%);
-      bottom: 120px; /* começa longe dos outros */
+      bottom: 120px; /* posição inicial */
     }
   </style>
 </head>
@@ -125,6 +125,11 @@
 
       const x = Math.random() * largura;
       const y = Math.random() * altura;
+
+      // 🔥 reset evita bug do botão gigante
+      btnNao.style.bottom = "auto";
+      btnNao.style.right = "auto";
+      btnNao.style.transform = "none";
 
       btnNao.style.left = x + "px";
       btnNao.style.top = y + "px";
