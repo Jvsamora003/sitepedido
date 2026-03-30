@@ -92,8 +92,10 @@
     }
 
     .btn-nao {
-      opacity: 0.75;
+      position: fixed;
       touch-action: none;
+      transition: left 0.15s ease, top 0.15s ease;
+      z-index: 999;
     }
 
     .hidden {
@@ -161,7 +163,7 @@
       var el = document.getElementById(idEntrar);
       el.classList.remove('hidden');
       el.classList.add('fade-in');
-
+      if (idEntrar === 'parte3') posicionarInicial();
     }
 
     function resposta() {
@@ -172,22 +174,42 @@
     }
 
     var btnNao = document.getElementById('btnNao');
-    var isMoving = false;
 
-    function fugir() {
-      if (isMoving) return;
-      isMoving = true;
-      /* Muda a ordem do botão dentro do flex: 0, 1 ou 2 aleatório */
-      var ordens = [0, 1, 2, 3, 4];
-      var ordem = ordens[Math.floor(Math.random() * ordens.length)];
-      btnNao.style.order = ordem;
-      setTimeout(function() { isMoving = false; }, 300);
+    /* Coloca o botão na posição inicial (embaixo dos outros, centralizado) */
+    function posicionarInicial() {
+      var bw = btnNao.offsetWidth || 120;
+      var bh = btnNao.offsetHeight || 48;
+      btnNao.style.left = ((window.innerWidth - bw) / 2) + 'px';
+      btnNao.style.top  = (window.innerHeight * 0.72) + 'px';
     }
 
-    /* PC: mouseover */
+    function fugir() {
+      var bw = btnNao.offsetWidth || 120;
+      var bh = btnNao.offsetHeight || 48;
+      var margin = 16;
+
+      /* Posição atual */
+      var cx = parseFloat(btnNao.style.left) || window.innerWidth / 2;
+      var cy = parseFloat(btnNao.style.top)  || window.innerHeight * 0.72;
+
+      /* Gera nova posição até achar uma suficientemente longe */
+      var nx, ny, tentativas = 0;
+      do {
+        nx = margin + Math.random() * (window.innerWidth  - bw - margin * 2);
+        ny = margin + Math.random() * (window.innerHeight - bh - margin * 2);
+        tentativas++;
+      } while (
+        Math.abs(nx - cx) < 80 && Math.abs(ny - cy) < 80 && tentativas < 20
+      );
+
+      btnNao.style.left = nx + 'px';
+      btnNao.style.top  = ny + 'px';
+    }
+
+    /* PC: foge no hover */
     btnNao.addEventListener('mouseover', fugir);
 
-    /* Celular: intercepta o touchstart e move ANTES do toque ser registrado como clique */
+    /* Celular: preventDefault impede o clique, foge no touchstart */
     btnNao.addEventListener('touchstart', function(e) {
       e.preventDefault();
       fugir();
